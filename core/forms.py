@@ -148,7 +148,7 @@ class FeedingForm(CoreModelForm):
 class PumpingForm(CoreModelForm):
     class Meta:
         model = models.Pumping
-        fields = ['child', 'start', 'end', 'duration', 'breast', 'amount', 'notes']
+        fields = ['child', 'start', 'end', 'breast', 'amount', 'notes']
         widgets = {
             'start': forms.DateTimeInput(attrs={
                 'readonly': 'readonly',

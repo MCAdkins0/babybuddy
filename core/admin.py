@@ -74,7 +74,7 @@ class PumpingImportExportResource(ImportExportResourceBase):
 class PumpingAdmin(ImportExportMixin, ExportActionMixin, admin.ModelAdmin):
     list_display = ('start', 'end', 'duration', 'child', 'breast',
                     'amount')
-    list_filter = ('child', 'type', 'method',)
+    list_filter = ('child', 'breast')
     search_fields = ('child__first_name', 'child__last_name',
                      'method',)
     resource_class = PumpingImportExportResource

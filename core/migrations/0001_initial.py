@@ -61,6 +61,22 @@ class Migration(migrations.Migration):
                 'default_permissions': ('view', 'add', 'change', 'delete'),
             },
         ),
+            migrations.CreateModel(
+            name='Pumping',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('start', models.DateTimeField()),
+                ('end', models.DateTimeField()),
+                ('duration', models.DurationField(editable=False, null=True)),
+                ('breast', models.CharField(choices=[('left breast', 'Left breast'), ('right breast', 'Right breast'),('both breasts', 'Both breasts')], max_length=255)),
+                ('amount', models.FloatField(blank=True, null=True)),
+                ('child', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='pumping', to='core.Child')),
+            ],
+            options={
+                'ordering': ['-start'],
+                'default_permissions': ('view', 'add', 'change', 'delete'),
+            },
+        ),
         migrations.CreateModel(
             name='Note',
             fields=[

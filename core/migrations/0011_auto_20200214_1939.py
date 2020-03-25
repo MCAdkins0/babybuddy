@@ -21,6 +21,11 @@ class Migration(migrations.Migration):
             field=models.TextField(blank=True, null=True, verbose_name='Notes'),
         ),
         migrations.AddField(
+            model_name='pumping',
+            name='notes',
+            field=models.TextField(blank=True, null=True, verbose_name='Notes'),
+        ),
+        migrations.AddField(
             model_name='sleep',
             name='notes',
             field=models.TextField(blank=True, null=True, verbose_name='Notes'),

@@ -26,6 +26,10 @@ class Migration(migrations.Migration):
             options={'default_permissions': ('view', 'add', 'change', 'delete'), 'ordering': ['-start'], 'verbose_name': 'Feeding', 'verbose_name_plural': 'Feedings'},
         ),
         migrations.AlterModelOptions(
+            name='pumping',
+            options={'default_permissions': ('view', 'add', 'change', 'delete'), 'ordering': ['-start'], 'verbose_name': 'Pumping', 'verbose_name_plural': 'Pumpings'},
+        ),
+        migrations.AlterModelOptions(
             name='note',
             options={'default_permissions': ('view', 'add', 'change', 'delete'), 'ordering': ['-time'], 'verbose_name': 'Note', 'verbose_name_plural': 'Notes'},
         ),
@@ -129,6 +133,36 @@ class Migration(migrations.Migration):
             model_name='feeding',
             name='type',
             field=models.CharField(choices=[('breast milk', 'Breast milk'), ('formula', 'Formula')], max_length=255, verbose_name='Type'),
+        ),
+        migrations.AlterField(
+            model_name='pumping',
+            name='amount',
+            field=models.FloatField(blank=True, null=True, verbose_name='Amount'),
+        ),
+        migrations.AlterField(
+            model_name='pumping',
+            name='child',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='pumping', to='core.Child', verbose_name='Child'),
+        ),
+        migrations.AlterField(
+            model_name='pumping',
+            name='duration',
+            field=models.DurationField(editable=False, null=True, verbose_name='Duration'),
+        ),
+        migrations.AlterField(
+            model_name='pumping',
+            name='end',
+            field=models.DateTimeField(verbose_name='End time'),
+        ),
+        migrations.AlterField(
+            model_name='pumping',
+            name='breast',
+            field=models.CharField(choices=[('left breast', 'Left breast'), ('right breast', 'Right breast'), ('both breasts', 'Both breasts')], max_length=255, verbose_name='Method'),
+        ),
+        migrations.AlterField(
+            model_name='pumping',
+            name='start',
+            field=models.DateTimeField(verbose_name='Start time'),
         ),
         migrations.AlterField(
             model_name='note',

@@ -54,12 +54,12 @@ urlpatterns = [
         name='feeding-delete'
     ),
 
-    path('pumpings/', views.FeedingList.as_view(), name='pumping-list'),
-    path('pumpings/add/', views.FeedingAdd.as_view(), name='pumping-add'),
+    path('pumpings/', views.PumpingList.as_view(), name='pumping-list'),
+    path('pumpings/add/', views.PumpingAdd.as_view(), name='pumping-add'),
     path(
         'pumpings/<int:pk>/',
-        views.FeedingUpdate.as_view(),
-        name='feeding-update'
+        views.PumpingUpdate.as_view(),
+        name='pumping-update'
     ),
     path(
         'pumpings/<int:pk>/delete/',
