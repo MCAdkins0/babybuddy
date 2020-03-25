@@ -54,6 +54,19 @@ urlpatterns = [
         name='feeding-delete'
     ),
 
+    path('pumpings/', views.FeedingList.as_view(), name='pumping-list'),
+    path('pumpings/add/', views.FeedingAdd.as_view(), name='pumping-add'),
+    path(
+        'pumpings/<int:pk>/',
+        views.FeedingUpdate.as_view(),
+        name='feeding-update'
+    ),
+    path(
+        'pumpings/<int:pk>/delete/',
+        views.PumpingDelete.as_view(),
+        name='pumping-delete'
+    ),
+
     path('notes/', views.NoteList.as_view(), name='note-list'),
     path('notes/add/', views.NoteAdd.as_view(), name='note-add'),
     path('notes/<int:pk>/', views.NoteUpdate.as_view(), name='note-update'),

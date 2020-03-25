@@ -1,0 +1,80 @@
+{% extends 'babybuddy/page.html' %}
+{% load duration i18n widget_tweaks %}
+
+{% block title %}{% trans "Pumpings" %}{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item active" aria-current="page">{% trans "Pumpings" %}</li>
+{% endblock %}
+
+{% block content %}
+    <h1>
+        {% trans "Pumpings" %}
+        {% if perms.core.add_pumping %}
+            <a href="{% url 'core:pumping-add' %}" class="btn btn-sm btn-success">
+                <i class="icon icon-pumping" aria-hidden="true"></i> {% trans "Add Pumping" %}
+            </a>
+        {% endif %}
+    </h1>
+    {% include 'babybuddy/filter.html' %}
+    <div class="table-responsive">
+        <table class="table table-instances">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>{% trans "Child" %}</th>
+                    <th>{% trans "Method" %}</th>
+                    <th>{% trans "Type" %}</th>
+                    {% comment %}Abbreviation of "Amount"{% endcomment %}
+                    <th>{% trans "Amt." %}</th>
+                    <th>{% trans "Duration" %}</th>
+                    <th>{% trans "Date" %}</th>
+                    <th class="text-center">{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pumping in object_list %}
+                    {% cycle "odd" "even" as row_class silent %}
+                    <tr class="{{ row_class }}">
+                        <th scope="row"><a href="{% url 'core:child' pumping.child.slug %}">{{ pumping.child }}</a></th>
+                        <td>{{ pumping.get_method_display }}</td>
+                        <td>{{ pumping.get_type_display }}</td>
+                        <td>
+                            {% if pumping.amount %}
+                                {{ pumping.amount }}
+                            {% endif %}
+                        </td>
+                        <td>{{ pumping.duration|duration_string }}</td>
+                        <td>{{ pumping.start }}</td>
+                        <td class="text-center">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="{% trans "Actions" %}">
+
+                                {% if perms.core.change_pumping %}
+                                    <a href="{% url 'core:pumping-update' pumping.id %}" class="btn btn-primary">
+                                        <i class="icon icon-update" aria-hidden="true"></i>
+                                    </a>
+                                {% endif %}
+
+                                {% if perms.core.delete_pumping %}
+                                    <a href="{% url 'core:pumping-delete' pumping.id %}" class="btn btn-danger">
+                                        <i class="icon icon-delete" aria-hidden="true"></i>
+                                    </a>
+                                {% endif %}
+
+                            </div>
+                        </td>
+                    </tr>
+                    {% if pumping.notes %}
+                        <tr class="{{ row_class }} row-details">
+                            <td colspan="7"><i class="icon icon-note mr-2" aria-hidden="true"></i>{{ pumping.notes }}</td>
+                        </tr>
+                    {% endif %}
+                {% empty %}
+                    <tr>
+                        <th colspan="7">{% trans "No pumpings found." %}</th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'babybuddy/paginator.html' %}
+{% endblock %}

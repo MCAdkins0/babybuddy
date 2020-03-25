@@ -145,6 +145,21 @@ class FeedingForm(CoreModelForm):
             'notes': forms.Textarea(attrs={'rows': 5}),
         }
 
+class PumpingForm(CoreModelForm):
+    class Meta:
+        model = models.Peeding
+        fields = ['child', 'start', 'end', 'duration', 'breast', 'amount', 'notes']
+        widgets = {
+            'start': forms.DateTimeInput(attrs={
+                'readonly': 'readonly',
+                'data-target': '#datetimepicker_start',
+            }),
+            'end': forms.DateTimeInput(attrs={
+                'readonly': 'readonly',
+                'data-target': '#datetimepicker_end',
+            }),
+            'notes': forms.Textarea(attrs={'rows': 5}),
+        }
 
 class NoteForm(CoreModelForm):
     class Meta:

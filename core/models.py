@@ -252,6 +252,62 @@ class Feeding(models.Model):
         validate_duration(self)
         validate_unique_period(Feeding.objects.filter(child=self.child), self)
 
+class Pumping(models.Model):
+    model_name = '[pumping]'
+    child = models.ForeignKey(
+        'Child',
+        on_delete=models.CASCADE,
+        related_name='pumping',
+        verbose_name=_('Child')
+    )
+    start = models.DateTimeField(
+        blank=False,
+        null=False,
+        verbose_name=_('Start time')
+    )
+    end = models.DateTimeField(
+        blank=False,
+        null=False,
+        verbose_name=_('End time')
+    )
+    duration = models.DurationField(
+        editable=False,
+        null=True,
+        verbose_name=_('Duration')
+    )
+    breast = models.CharField(
+        choices=[
+            ('left breast', _('Left breast')),
+            ('right breast', _('Right breast')),
+            ('both breasts', _('Both breasts')),
+        ],
+        max_length=255,
+        verbose_name=_('Breast')
+    )
+    amount = models.FloatField(blank=True, null=True, verbose_name=_('Amount'))
+    notes = models.TextField(blank=True, null=True, verbose_name=_('Notes'))
+
+    objects = models.Manager()
+
+    class Meta:
+        default_permissions = ('view', 'add', 'change', 'delete')
+        ordering = ['-start']
+        verbose_name = _('Pumping')
+        verbose_name_plural = _('Pumpings')
+
+    def __str__(self):
+        return str(_('Pumping'))
+
+    def save(self, *args, **kwargs):
+        if self.start and self.end:
+            self.duration = self.end - self.start
+        super(Feeding, self).save(*args, **kwargs)
+
+    def clean(self):
+        validate_time(self.start, 'start')
+        validate_time(self.end, 'end')
+        validate_duration(self)
+        validate_unique_period(Feeding.objects.filter(child=self.child), self)
 
 class Note(models.Model):
     model_name = 'note'

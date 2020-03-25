@@ -47,6 +47,26 @@ def get_objects(child, date):
             'type': 'end'
         })
 
+    instances = Pumping.objects.filter(child=child).filter(
+        start__range=(min_date, max_date)).order_by('-start')
+    for instance in instances:
+        events.append({
+            'time': timezone.localtime(instance.start),
+            'event': _('started pumping.') % {
+                'child': instance.child.first_name
+            },
+            'model_name': instance.model_name,
+            'type': 'start'
+        })
+        events.append({
+            'time': timezone.localtime(instance.end),
+            'event': _('finished pumping.') % {
+                'child': instance.child.first_name
+            },
+            'model_name': instance.model_name,
+            'type': 'end'
+        })
+
     instances = Sleep.objects.filter(child=child).filter(
         start__range=(min_date, max_date)).order_by('-start')
     for instance in instances:

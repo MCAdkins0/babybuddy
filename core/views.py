@@ -179,6 +179,32 @@ class FeedingDelete(CoreDeleteView):
     permission_required = ('core.delete_feeding',)
     success_url = reverse_lazy('core:feeding-list')
 
+class PumpingList(PermissionRequired403Mixin, BabyBuddyFilterView):
+    model = models.Feeding
+    template_name = 'core/pumping_list.html'
+    permission_required = ('core.view_pumping',)
+    paginate_by = 10
+    filterset_fields = ('child', 'type', 'method')
+
+
+class PumpingAdd(CoreAddView):
+    model = models.Pumping
+    permission_required = ('core.add_pumping',)
+    form_class = forms.PumpingForm
+    success_url = reverse_lazy('core:pumping-list')
+
+
+class PumpingUpdate(CoreUpdateView):
+    model = models.Pumping
+    permission_required = ('core.change_pumping',)
+    form_class = forms.PumpingForm
+    success_url = reverse_lazy('core:pumping-list')
+
+
+class PumpingDelete(CoreDeleteView):
+    model = models.Pumping
+    permission_required = ('core.delete_pumping',)
+    success_url = reverse_lazy('core:pumping-list')
 
 class NoteList(PermissionRequired403Mixin, BabyBuddyFilterView):
     model = models.Note
